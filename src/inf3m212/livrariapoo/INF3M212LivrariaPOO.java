@@ -13,6 +13,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import model.Cliente;
 import model.Editora;
+import model.Livro;
 import util.Validadores;
 
 /**
@@ -39,11 +40,23 @@ public class INF3M212LivrariaPOO {
         return num;
     }
 
+    public static float leiaNumFloat() {
+        Scanner leiaNum = new Scanner(System.in);
+        float num = 99;
+        try {
+            num = leiaNum.nextFloat();
+        } catch (InputMismatchException e) {
+            System.out.println("Tente Novamente!\n" + e.getMessage());
+            leiaNum.nextLine();
+        }
+        return num;
+    }
+
     public static void menuP() {
         System.out.println("..: Livraria :..");
-        System.out.println("1 - Ger Clientes");
-        System.out.println("2 - Ger Editoras");
-        System.out.println("3 - Ger Livros");
+        System.out.println("1 - Gerenciar Clientes");
+        System.out.println("2 - Gerenciar Editoras");
+        System.out.println("3 - Gerenciar Livros");
         System.out.println("4 - Venda Livro");
         System.out.println("0 - Sair");
         System.out.print("Escolha uma opção: ");
@@ -62,7 +75,7 @@ public class INF3M212LivrariaPOO {
                 tpCad = "Livro";
                 break;
         }
-        System.out.println("Ger. " + tpCad);
+        System.out.println(".: Gerenciar " + tpCad);
         System.out.println("1 - Cadastrar " + tpCad);
         System.out.println("2 - Editar " + tpCad);
         System.out.println("3 - Listar " + tpCad + "s");
@@ -139,7 +152,7 @@ public class INF3M212LivrariaPOO {
     public static void listarCliente() {
 
         for (Cliente cli : cadCliente.getClientes()) {
-            System.out.println("----");
+            System.out.println("---->");
             System.out.println("CPF:\t" + cli.getCpf());
             System.out.println("Nome:\t" + cli.getNomeCliente());
             System.out.println("Fone:\t" + cli.getTelefone());
@@ -246,13 +259,13 @@ public class INF3M212LivrariaPOO {
     public static void listarEditora() {
 
         for (Editora edi : cadEditora.getEditoras()) {
-            System.out.println("----");
+            System.out.println("---->");
             System.out.println("CNPJ:\t" + edi.getCnpj());
             System.out.println("Nome:\t" + edi.getNmEditora());
             System.out.println("Fone:\t" + edi.getTelefone());
         }
 
-    }//fim listarCliente
+    }//fim listarEditora
 
     public static void deletarEditora() {
         System.out.println("-- Deletar Editora --");
@@ -303,7 +316,7 @@ public class INF3M212LivrariaPOO {
                                 } else if (opM == 2) {
                                     cadastrarEditora();
                                 } else if (opM == 3) {
-                                    //cadastrarLivro();
+                                    cadastrarLivro();
                                 }
                                 break;
                             case 2:
@@ -313,7 +326,7 @@ public class INF3M212LivrariaPOO {
                                 } else if (opM == 2) {
                                     editarEditora();
                                 } else if (opM == 3) {
-                                    //editarLivro();
+                                    editarLivro();
                                 }
                                 break;
                             case 3:
@@ -323,7 +336,7 @@ public class INF3M212LivrariaPOO {
                                 } else if (opM == 2) {
                                     listarEditora();
                                 } else if (opM == 3) {
-                                    //listarLivro();
+                                    listarLivro();
                                 }
                                 break;
                             case 4:
@@ -333,7 +346,7 @@ public class INF3M212LivrariaPOO {
                                 } else if (opM == 2) {
                                     deletarEditora();
                                 } else if (opM == 3) {
-                                    //deletarLivro();
+                                    deletarLivro();
                                 }
                                 break;
                             case 0:
@@ -406,5 +419,87 @@ public class INF3M212LivrariaPOO {
             System.out.println("CPF inválido!");
         }
     }
+
+    private static void cadastrarLivro() {
+        System.out.println("-- Cadastrar Livro --");
+        System.out.print("Infome o ISBN: ");
+        String isbn = leia.nextLine();
+
+        if (cadLivro.getLivroISBN(isbn) != null) {
+            System.out.println("Livro já cadastrado!");
+        } else {
+            int idLivro = cadLivro.geraID();
+            System.out.print("Informe o Titulo do livro: ");
+            String titulo = leia.nextLine();
+
+            System.out.print("Informe o autor do livro: ");
+            String autor = leia.nextLine();
+
+            System.out.print("Informe o assunto do livro: ");
+            String assunto = leia.nextLine();
+
+            System.out.print("Informe a quantidade de livros em estoque: ");
+            int estoque = leiaNumInt();
+
+            System.out.print("Informe o valor do livro: ");
+            float preco = leiaNumFloat();
+
+            boolean isCNPJ = false;
+            Editora idEditora = null;
+            do {
+                System.out.print("Informe o CNPJ da Editora: ");
+                String cnpj = leia.nextLine();
+                isCNPJ = Validadores.isCNPJ(cnpj);
+                if (isCNPJ) {
+                    idEditora = cadEditora.getEditoraCNPJ(cnpj);
+                    if (idEditora == null) {
+                        System.out.println("Editora não cadastrada!");
+                        isCNPJ = false;
+                    } else {
+                        System.out.println("Editora: " + idEditora.getNmEditora());
+                    }
+                } else {
+                    System.out.println("CNPJ inválido!");
+                }
+            } while (isCNPJ);
+            Livro li = new Livro(idLivro, titulo, autor, assunto, isbn, estoque, preco, idEditora);
+            cadLivro.addLivro(li);
+            System.out.println("Livro cadastrado!");
+        }
+
+    }//fim cadastrarLivro
+
+    private static void editarLivro() {
+
+    }//fim editarLivro
+
+    private static void listarLivro() {
+        System.out.println("-- Lista de Livros --");
+        for (Livro livro : cadLivro.getLivros()) {
+            System.out.println("---->");
+            System.out.println("ISBN:\t\t" + livro.getIsbn());
+            System.out.println("Titulo:\t\t" + livro.getTitulo());
+            System.out.println("Assunto:\t" + livro.getAssunto());
+            System.out.println("Autor:\t\t" + livro.getAutor());
+            System.out.println("Estoque:\t" + livro.getEstoque());
+            System.out.println("Preço:\t\t" + livro.getPreco());
+            System.out.println("Editora:\t" + livro.getIdEditora().getNmEditora());
+        }
+
+    }//fim listarLivro
+
+    private static void deletarLivro() {
+        System.out.println("-- Deletar Livro --");
+        System.out.print("Informe o ISBN: ");
+        String isbn = leia.nextLine();
+
+        Livro li = cadLivro.getLivroISBN(isbn);
+        if (li != null) {
+            System.out.println("O livro " + li.getTitulo() + " sera deletado!");
+            cadLivro.removeLivro(li);
+        } else {
+            System.out.println("ISBN não encontrado!");
+        }
+    }//fim deletarLivro
 
 }
