@@ -161,7 +161,7 @@ public class INF3M212LivrariaPOO {
         int opCNPJ;
         do {
             cnpj = leia.nextLine();
-            cnpjis = Validadores.isCPF(cnpj);
+            cnpjis = Validadores.isCNPJ(cnpj);
             if (!cnpjis) {
                 System.out.print("CNPJ Invalido!"
                         + "\nDeseja tentar novamente? 1 - Sim || 2 - Não: ");
@@ -257,7 +257,7 @@ public class INF3M212LivrariaPOO {
     public static void deletarEditora() {
         System.out.println("-- Deletar Editora --");
         System.out.print("Informe o CNPJ: ");
-        String cnpj = leia.next();
+        String cnpj = leia.nextLine();
 
         if (Validadores.isCNPJ(cnpj)) {
             Editora edi = cadEditora.getEditoraCNPJ(cnpj);
