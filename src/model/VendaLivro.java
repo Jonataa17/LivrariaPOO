@@ -6,6 +6,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 
@@ -73,7 +74,7 @@ public class VendaLivro {
 
     @Override
     public String toString() {
-        return "VendaLivro{" + "idVendaLivro=" + idVendaLivro + ", idCliente=" + idCliente + ", livros=" + livros + ", subTotal=" + subTotal + ", dataVenda=" + dataVenda + '}';
+        return "\nNome do Cliente:\t" + idCliente.getNomeCliente() + "\nLivros:\t" + livros.toString() + "\nSubTotal:\t" + subTotal + "\nDataVenda:\t" + dataVenda.format(DateTimeFormatter.ofPattern("d/M/y"));
     }
     
 }

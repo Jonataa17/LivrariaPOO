@@ -9,11 +9,14 @@ import controller.CCliente;
 import controller.CEditora;
 import controller.CLivro;
 import controller.CVendaLivro;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import model.Cliente;
 import model.Editora;
 import model.Livro;
+import model.VendaLivro;
 import util.Validadores;
 
 /**
@@ -361,6 +364,7 @@ public class INF3M212LivrariaPOO {
                     break;
                 case 4:
                     System.out.println("--Venda Livro--");
+                    vendaLivro();
                     break;
                 case 0:
                     System.out.println("--Fim do programa--");
@@ -543,4 +547,53 @@ public class INF3M212LivrariaPOO {
         }
     }//fim deletarLivro
 
+    private static void vendaLivro() {
+        int idVendaLivro;
+        Cliente idCliente = null;
+        ArrayList<Livro> livros = new ArrayList<>();
+        float subTotal = 0;
+        LocalDate dataVenda = LocalDate.now();
+
+        do {
+            System.out.print("Informe o CPF do cliente: ");
+            String cpf = leia.nextLine();
+            if (Validadores.isCPF(cpf)) {
+                idCliente = cadCliente.getClienteCPF(cpf);
+                if (idCliente == null) {
+                    System.out.println("Cliente não cadastrado!");
+                }
+            } else {
+                System.out.println("CPF inválido!");
+            }
+        } while (idCliente == null);
+
+        boolean venda = true;
+        do {
+            Livro li = null;
+            String isbn;
+            do {
+                System.out.print("Informe o ISBN: ");
+                isbn = leia.nextLine();
+                li = cadLivro.getLivroISBN(isbn);
+                if (li == null) {
+                    System.out.println("Livro não encotrado, tente novamente!");
+                }
+            } while (li == null);
+            if (li.getEstoque() > 0) {
+                livros.add(li);
+                cadLivro.atualizaEstoqueLivro(li.getIsbn());
+                subTotal += li.getPreco();
+            } else {
+                System.out.println(li.getTitulo() + " não tem no estoque!");
+            }
+            System.out.println("Deseja comprar mais livros? 1 - Sim || 2 - Não \nDigite aqui: ");
+            if (leiaNumInt() == 2) {
+                venda = false;
+            }
+        } while (venda);
+        idVendaLivro = cadCVendaLivro.geraID();
+        VendaLivro vl = new VendaLivro(idVendaLivro, idCliente, livros, subTotal, dataVenda);
+        cadCVendaLivro.addVendaLivro(vl);
+        System.out.println("-- Venda Livro --\n" + vl.toString());
+    }//fim vendaLivro
 }

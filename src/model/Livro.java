@@ -10,6 +10,7 @@ package model;
  * @author jbferraz
  */
 public class Livro {
+
     private int idLivro;
     private String titulo;
     private String autor;
@@ -99,8 +100,7 @@ public class Livro {
 
     @Override
     public String toString() {
-        return "Livro -->" + "\nTitulo:\t\t" + titulo + "\nAutor:\t\t" + autor + "\nAssunto:\t" + assunto + "\nIsbn:\t\t" + isbn + "\nEstoque:\t" + estoque + "\nPreço:\t\t" + preco;
+        return "\nTitulo:\t\t" + titulo + "\nAutor:\t\t" + autor + "\nAssunto:\t" + assunto + "\nIsbn:\t\t" + isbn + "\nEstoque:\t" + estoque + "\nPreço:\t\t" + preco;
     }
-    
-    
+
 }
