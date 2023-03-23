@@ -395,7 +395,7 @@ public class INF3M212LivrariaPOO {
                         cli.setEndereco(leia.nextLine());
                         break;
                     case 3:
-                        System.out.println("Informe o fone: ");
+                        System.out.print("Informe o fone: ");
                         cli.setTelefone(leia.nextLine());
                         break;
                     case 4:
@@ -422,7 +422,7 @@ public class INF3M212LivrariaPOO {
 
     private static void cadastrarLivro() {
         System.out.println("-- Cadastrar Livro --");
-        System.out.print("Infome o ISBN: ");
+        System.out.print("Informe o ISBN: ");
         String isbn = leia.nextLine();
 
         if (cadLivro.getLivroISBN(isbn) != null) {
@@ -470,7 +470,48 @@ public class INF3M212LivrariaPOO {
     }//fim cadastrarLivro
 
     private static void editarLivro() {
+        System.out.println("-- Editar Livro --");
+        System.out.print("Informe o ISBN do livro: ");
+        String isbn = leia.nextLine();
 
+        Livro li = cadLivro.getLivroISBN(isbn);
+        if (li != null) {
+            System.out.println("1 - Titulo:\t" + li.getTitulo());
+            System.out.println("2 - Estoque:\t" + li.getEstoque());
+            System.out.println("3 - Preço:\t" + li.getPreco());
+            System.out.println("4 - Todas as opções acima");
+            System.out.print("Qual das opções deseja alterar? 1 || 2 || 3 || 4\n Digite aqui: ");
+            int opEditar = leiaNumInt();
+            switch (opEditar) {
+                case 1:
+                    System.out.print("Informe o titulo: ");
+                    li.setTitulo(leia.nextLine());
+                    break;
+                case 2:
+                    System.out.print("Informe a quantidade em estoque: ");
+                    li.setEstoque(leia.nextInt());
+                    break;
+                case 3:
+                    System.out.print("Informe o preço: ");
+                    li.setPreco(leia.nextFloat());
+                    break;
+                case 4:
+                    System.out.println("Informe todos os campos abaixo:");
+                    System.out.print("Informe o titulo: ");
+                    li.setTitulo(leia.nextLine());
+                    System.out.print("Informe a quantidade em estoque: ");
+                    li.setEstoque(leia.nextInt());
+                    System.out.print("Informe o preço: ");
+                    li.setPreco(leia.nextFloat());
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+                    break;
+            }
+            System.out.println(li.toString());
+        } else {
+            System.out.println("Livro não cadastrado!");
+        }
     }//fim editarLivro
 
     private static void listarLivro() {
@@ -495,7 +536,7 @@ public class INF3M212LivrariaPOO {
 
         Livro li = cadLivro.getLivroISBN(isbn);
         if (li != null) {
-            System.out.println("O livro " + li.getTitulo() + " sera deletado!");
+            System.out.println("O livro " + li.getTitulo() + " foi deletado!");
             cadLivro.removeLivro(li);
         } else {
             System.out.println("ISBN não encontrado!");
