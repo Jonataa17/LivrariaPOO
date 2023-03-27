@@ -110,7 +110,7 @@ public class INF3M212LivrariaPOO {
                     System.out.print("Informe o CPF: ");
                 } else if (opCPF == 2) {
                     System.out.println("Cadastro encerrado pelo usuario!");
-                    break;
+                    return;
                 }
             }
 
@@ -120,7 +120,7 @@ public class INF3M212LivrariaPOO {
             System.out.println("Cliente já cadastrado!");
         } else {
             System.out.print("Informe o seu nome: ");
-            nomeCliente = leia.nextLine();
+            nomeCliente = leia.nextLine().toUpperCase();
             System.out.print("Informe o seu telefone: ");
             telefone = leia.nextLine();
             System.out.print("Informe o seu endereço: ");
@@ -186,7 +186,7 @@ public class INF3M212LivrariaPOO {
                     System.out.print("Informe o CNPJ: ");
                 } else if (opCNPJ == 2) {
                     System.out.println("Cadastro encerrado pelo usuario!");
-                    break;
+                    return;
                 }
             }
 
@@ -222,35 +222,42 @@ public class INF3M212LivrariaPOO {
                 System.out.println("2 - Endereço:\t" + edi.getEndereco());
                 System.out.println("3 - Fone:\t" + edi.getTelefone());
                 System.out.println("4 - Todas as opções acima");
-                System.out.print("Qual das opções deseja alterar? 1 || 2 || 3 || 4\n Digite aqui: ");
-                int opEditar = leiaNumInt();
-                switch (opEditar) {
-                    case 1:
-                        System.out.print("Informe o nome: ");
-                        edi.setNmEditora(leia.nextLine());
-                        break;
-                    case 2:
-                        System.out.print("Informe o endereço: ");
-                        edi.setEndereco(leia.nextLine());
-                        break;
-                    case 3:
-                        System.out.println("Informe o fone: ");
-                        edi.setTelefone(leia.nextLine());
-                        break;
-                    case 4:
-                        System.out.println("Informe todos os campos abaixo:");
-                        System.out.print("Informe o nome: ");
-                        edi.setNmEditora(leia.nextLine());
-                        System.out.print("Informe o endereço: ");
-                        edi.setEndereco(leia.nextLine());
-                        System.out.print("Informe o fone: ");
-                        edi.setTelefone(leia.nextLine());
-                        break;
-                    default:
-                        System.out.println("Opção inválida!");
-                        break;
-                }
-                System.out.println("Editora:\n" + edi.toString());
+                boolean op;
+                do {
+                    System.out.print("Qual das opções deseja alterar? 1 || 2 || 3 || 4\n Digite aqui: ");
+                    int opEditar = leiaNumInt();
+                    switch (opEditar) {
+                        case 1:
+                            System.out.print("Informe o nome: ");
+                            edi.setNmEditora(leia.nextLine());
+                            op = true;
+                            break;
+                        case 2:
+                            System.out.print("Informe o endereço: ");
+                            edi.setEndereco(leia.nextLine());
+                            op = true;
+                            break;
+                        case 3:
+                            System.out.println("Informe o fone: ");
+                            edi.setTelefone(leia.nextLine());
+                            op = true;
+                            break;
+                        case 4:
+                            System.out.println("Informe todos os campos abaixo:");
+                            System.out.print("Informe o nome: ");
+                            edi.setNmEditora(leia.nextLine());
+                            System.out.print("Informe o endereço: ");
+                            edi.setEndereco(leia.nextLine());
+                            System.out.print("Informe o fone: ");
+                            edi.setTelefone(leia.nextLine());
+                            op = true;
+                            break;
+                        default:
+                            System.out.println("Opção inválida!");
+                            op = false;
+                            break;
+                    }
+                } while (!op);
             } else {
                 System.out.println("Editora não cadastrado!");
             }
